@@ -1,139 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peptide Stability Analyzer</title>
-    
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Bootstrap for responsive design -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" 
-          rel="stylesheet">
-    
-    <!-- Chart.js for visualizations -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Pyodide for Python in browser -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
-    
-    <!-- Main app script -->
-    <script src="js/main.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peptide Stability Analyzer</title>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+  
+  <!-- Bootstrap CSS for responsive design -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  
+  <!-- Chart.js for visualizations -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Pyodide for running Python in the browser -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  
+  <!-- Main JavaScript (deferred so DOM is loaded first) -->
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <header class="text-center my-4">
-            <h1>Peptide Stability Analyzer</h1>
-            <p class="lead">Analyze disulfide bond patterns and peptide stability</p>
-        </header>
-        
-        <div id="loading-indicator" class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="mt-2">Loading Python environment...</p>
-        </div>
-		<div id="app-container" style="display: none;">
-            <div class="row mb-4">
-                <div class="col-md-8">
-                    <div class="input-group">
-                        <input type="text" id="sequence-input" class="form-control" 
-                               placeholder="Enter amino acid sequence (e.g., CGKCTLKECHPSKGCSR)">
-                        <button id="analyze-button" class="btn btn-primary">
-                            Analyze Stability
-                        </button>
-                    </div>
-                    <small class="form-text text-muted">
-                        Valid amino acids: A C D E F G H I K L M N P Q R S T V W Y
-                    </small>
-                </div>
-                <div class="col-md-4">
-                    <div id="status-message" class="alert" role="alert" style="display: none;"></div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-12">
-                    <ul class="nav nav-tabs" id="result-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="energy-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#energy-content" type="button" role="tab">
-                                Energy Components
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="pattern-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#pattern-content" type="button" role="tab">
-                                Pattern Analysis
-                            </button>
-                        </li>
-						<li class="nav-item" role="presentation">
-                            <button class="nav-link" id="structure-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#structure-content" type="button" role="tab">
-                                Structure Visualization
-                            </button>
-                        </li>
-                    </ul>
-                    
-                    <div class="tab-content p-3 border border-top-0 rounded-bottom" id="result-tabs-content">
-                        <div class="tab-pane fade show active" id="energy-content" role="tabpanel">
-                            <div class="chart-container" style="position: relative; height:50vh;">
-                                <canvas id="energy-chart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div class="tab-pane fade" id="pattern-content" role="tabpanel">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="pattern-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Pattern</th>
-                                            <th>Total Energy</th>
-                                            <th>Loop Sizes</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="pattern-table-body">
-                                        <!-- Results will be populated here -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-						<div class="tab-pane fade" id="structure-content" role="tabpanel">
-                            <div class="sequence-visualization-container">
-                                <div id="sequence-display" class="sequence-display">
-                                    <!-- Sequence visualization will be rendered here -->
-                                </div>
-                                <div class="chart-container" style="position: relative; height:30vh;">
-                                    <canvas id="structure-chart"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>Instructions</h5>
-                        </div>
-                        <div class="card-body">
-                            <ol>
-                                <li>Enter your peptide sequence using standard one-letter amino acid codes</li>
-                                <li>Sequence must contain an even number of cysteines (C)</li>
-                                <li>Click "Analyze Stability" to calculate possible disulfide patterns</li>
-                                <li>View results in the three tabs above</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <header class="text-center my-4">
+      <h1>Peptide Stability Analyzer</h1>
+      <p class="lead">Analyze disulfide bond patterns and peptide stability</p>
+    </header>
+    
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading Python environment...</p>
     </div>
     
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Application Container (hidden until Pyodide is ready) -->
+    <div id="app-container" style="display: none;">
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <div class="input-group">
+            <input
+              type="text"
+              id="sequence-input"
+              class="form-control"
+              placeholder="Enter amino acid sequence (e.g., CGKCTLKECHPSKGCSR)"
+            />
+            <button id="analyze-button" class="btn btn-primary">
+              Analyze Stability
+            </button>
+          </div>
+          <small class="form-text text-muted">
+            Valid amino acids: A C D E F G H I K L M N P Q R S T V W Y
+          </small>
+        </div>
+        <div class="col-md-4">
+          <div
+            id="status-message"
+            class="alert"
+            role="alert"
+            style="display: none;"
+          ></div>
+        </div>
+      </div>
+      
+      <!-- Results Tabs -->
+      <div class="row">
+        <div class="col-12">
+          <ul class="nav nav-tabs" id="result-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="energy-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#energy-content"
+                type="button"
+                role="tab"
+              >
+                Energy Components
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="pattern-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#pattern-content"
+                type="button"
+                role="tab"
+              >
+                Pattern Analysis
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="structure-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#structure-content"
+                type="button"
+                role="tab"
+              >
+                Structure Visualization
+              </button>
+            </li>
+          </ul>
+          
+          <div
+            class="tab-content p-3 border border-top-0 rounded-bottom"
+            id="result-tabs-content"
+          >
+            <!-- Tab 1: Energy Components -->
+            <div class="tab-pane fade show active" id="energy-content" role="tabpanel">
+              <div class="chart-container" style="position: relative; height:50vh;">
+                <canvas id="energy-chart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Tab 2: Pattern Analysis -->
+            <div class="tab-pane fade" id="pattern-content" role="tabpanel">
+              <div class="table-responsive">
+                <table class="table table-striped" id="pattern-table">
+                  <thead>
+                    <tr>
+                      <th>Pattern</th>
+                      <th>Total Energy</th>
+                      <th>Loop Sizes</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pattern-table-body">
+                    <!-- Pattern table rows will be inserted here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Tab 3: Structure Visualization -->
+            <div class="tab-pane fade" id="structure-content" role="tabpanel">
+              <div class="sequence-visualization-container">
+                <div id="sequence-display" class="sequence-display">
+                  <!-- Sequence visualization will be rendered here -->
+                </div>
+                <div class="chart-container" style="position: relative; height:30vh;">
+                  <canvas id="structure-chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Instructions Card -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h5>Instructions</h5>
+            </div>
+            <div class="card-body">
+              <ol>
+                <li>Enter your peptide sequence using standard one-letter amino acid codes.</li>
+                <li>Sequence must contain an even number of cysteines (C).</li>
+                <li>Click "Analyze Stability" to calculate possible disulfide patterns.</li>
+                <li>View results in the three tabs above.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
