@@ -1,0 +1,143 @@
+/* General Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    padding-bottom: 2rem;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header Styles */
+header {
+    margin-bottom: 2rem;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+/* Input Area Styles */
+#sequence-input {
+    font-family: monospace;
+    letter-spacing: 1px;
+}
+
+.form-text {
+    font-size: 0.85rem;
+}
+
+/* Loading Indicator */
+#loading-indicator {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* Results Area Styles */
+.tab-content {
+    background-color: #fff;
+    min-height: 400px;
+}
+
+.nav-tabs .nav-link {
+    color: #495057;
+    font-weight: 500;
+}
+
+.nav-tabs .nav-link.active {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+/* Chart Containers */
+.chart-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Pattern Table Styles */
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+#pattern-table th {
+    position: sticky;
+    top: 0;
+    background-color: #f8f9fa;
+    z-index: 10;
+}
+
+/* Sequence Visualization */
+.sequence-visualization-container {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+.sequence-display {
+    font-family: monospace;
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    white-space: nowrap;
+    overflow-x: auto;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.amino-acid {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 2px;
+    border-radius: 3px;
+}
+
+.amino-acid.cysteine {
+    color: white;
+    background-color: #dc3545;
+    font-weight: bold;
+}
+
+/* Status Message Styles */
+#status-message {
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+}
+
+#status-message.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+#status-message.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sequence-display {
+        font-size: 1rem;
+        letter-spacing: 2px;
+    }
+    
+    .amino-acid {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+    }
+}
